@@ -1,0 +1,61 @@
+@import "variables";
+
+.red-text {
+  color: $red-text;
+}
+
+.default-text {
+  color: $default-text;
+}
+
+.white-text {
+  color: $white-text;
+}
+
+.fw-bold {
+  font-weight: $fw-bold;
+}
+
+.fw-normal {
+  font-weight: $fw-normal;
+}
+
+.bg-gray {
+  background-color: $bg-gray;
+}
+
+.bg-white {
+  background-color: $bg-white;
+}
+
+.bg-dark {
+  background-color: $bg-dark;
+}
+
+.bg-red {
+  background-color: $bg-red;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.mb-2 {
+  margin-bottom: .5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}

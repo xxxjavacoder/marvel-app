@@ -1,0 +1,11 @@
+@import '../../styles/variables';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0;
+  font-size: 22px;
+  font-weight:  $fw-bold;
+}
