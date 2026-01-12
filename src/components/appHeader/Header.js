@@ -1,4 +1,4 @@
-import Banner from '../appBanner/Banner';
+import RandomChar from '../appRandomChar/randomChar';
 
 import './Header.scss';
 
@@ -13,7 +13,7 @@ function Header() {
                     <span className="red-text">Characters</span> / Comics
                 </div>
             </div>
-            <Banner/>
+            <RandomChar/>
         </div>
     );
 }

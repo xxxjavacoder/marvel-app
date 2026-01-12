@@ -1,19 +1,19 @@
-import './Banner.scss';
+import './randomChar.scss';
 import thorImg from '../../resources/img/thor.jpg';
 
-function Banner() {
+function RandomChar() {
     return (
-        <div className="banner">
-            <div className="banner__hero">
-                <img className="banner__hero-img" src={thorImg} alt="thor" />
-                <div className="banner__hero-wrapper">
-                    <div className="banner__hero-title fw-bold fz-24">
+        <div className="random-char">
+            <div className="random-char__hero">
+                <img className="random-char__hero-img" src={thorImg} alt="thor" />
+                <div className="random-char__hero-wrapper">
+                    <div className="random-char__hero-title fw-bold fz-24">
                         Thor
                     </div>
-                    <div className="banner__hero-text">
+                    <div className="random-char__hero-text">
                         As the Norse God of thunder and lightning, Thor wields one of the greatest weapons ever made, the enchanted hammer Mjolnir. While others have described Thor as an over-muscled, oafish imbecile, he's quite smart and compassionate...
                     </div>
-                    <div className="banner__hero-btns">
+                    <div className="random-char__hero-btns">
                         <button className="btn btn-red">
                             HOMEPAGE
                         </button>
@@ -23,7 +23,7 @@ function Banner() {
                     </div>
                 </div>
             </div>
-            <div className="banner__random">
+            <div className="random-char__random">
                 <div className="fz-24 fw-bold">
                     Random character for today!
                     Do you want to get to know him better?
@@ -37,4 +37,4 @@ function Banner() {
     );
 }
 
-export default Banner;
+export default RandomChar;
