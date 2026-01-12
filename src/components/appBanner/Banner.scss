@@ -1,0 +1,39 @@
+@import '../../styles/variables';
+
+.banner {
+  width: 100%;
+  display: flex;
+  box-shadow: 0 3px 20px $bg-gray;
+
+  &__hero {
+    width: 50%;
+    background-color: #fff;
+    display: flex;
+    padding: 20px;
+  }
+
+  &__hero-img {
+    width: 180px;
+    height: 180px;
+    margin-right: 20px;
+  }
+
+  &__hero-text {
+    margin-top: 10px;
+  }
+
+  &__hero-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  &__random {
+    background-color: $bg-dark;
+    padding: 20px;
+    color: $white-text;
+    width: 50%;
+  }
+}

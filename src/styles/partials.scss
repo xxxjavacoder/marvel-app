@@ -20,6 +20,26 @@
   font-weight: $fw-normal;
 }
 
+.fz-14 {
+  font-size: 14px;
+}
+
+.fz-16 {
+  font-size: 16px;
+}
+
+.fz-20 {
+  font-size: 20px;
+}
+
+.fz-24 {
+  font-size: 24px;
+}
+
+.fz-28 {
+  font-size: 28px;
+}
+
 .bg-gray {
   background-color: $bg-gray;
 }
@@ -52,10 +72,41 @@
   flex-direction: column;
 }
 
+.mt-2 {
+  margin-top: .5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
 .mb-2 {
   margin-bottom: .5rem;
 }
 
 .mb-4 {
   margin-bottom: 1rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  color: $white-text;
+  background-color: $bg-gray;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $bg-dark;
+  }
+}
+
+.btn-red {
+  background-color: $bg-red;
+
+  &:hover {
+    background-color: darken($bg-red, 10%);
+  }
 }
