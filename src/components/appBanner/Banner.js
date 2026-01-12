@@ -1,5 +1,5 @@
 import './Banner.scss';
-import thorImg from '../../img/thor.jpg';
+import thorImg from '../../resources/img/thor.jpg';
 
 function Banner() {
     return (

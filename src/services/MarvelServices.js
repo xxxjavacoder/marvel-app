@@ -1,0 +1,24 @@
+class MarvelServices {
+    _apiBaseUrl = 'https://marvel-server-zeta.vercel.app';
+    _apiKey = 'apikey=d4eecb0c66dedbfae4eab45d312fc1df';
+
+    getResource = async (url) => {
+        let res = await fetch(url);
+
+        if (!res.ok) {
+            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+        }
+
+        return await res.json();
+    }
+
+    getAllCharacters = async () => {
+        return await this.getResource(`${this._apiBaseUrl}/characters?limit=9&${this._apiKey}`);
+    }
+
+    getCharacter = async (id) => {
+        return await this.getResource(`${this._apiBaseUrl}/characters/${id}?&${this._apiKey}`);
+    }
+}
+
+export default MarvelServices;
