@@ -23,7 +23,7 @@ class CharList extends Component {
         this.setState({chars, loading: false})
     }
 
-    onError = (err) => {
+    onError = () => {
         this.setState({loading: false, error: true});
     }
 
@@ -43,7 +43,7 @@ class CharList extends Component {
         const errorMessage = error ? <ErrorMesaage/> : null;
 
         const charViews = chars.map(
-            (char, index) => <View char={char} key={index + 1} />
+            char => <View char={char} key={char.name} />
         );
 
         return (
@@ -63,11 +63,11 @@ class CharList extends Component {
     }
 }
 
-const View = ({char}, key) => {
+const View = ({char}) => {
     const {name, thumbnail} = char;
 
     return (
-        <div className="char__item" key={key}>
+        <div className="char__item">
             <img src={thumbnail} alt="name"/>
             <div className="char__name">{name}</div>
         </div>
