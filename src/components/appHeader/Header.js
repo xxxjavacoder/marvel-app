@@ -1,4 +1,4 @@
-import RandomChar from '../appRandomChar/randomChar';
+import RandomChar from '../appRandomChar/RandomChar';
 
 import './Header.scss';
 

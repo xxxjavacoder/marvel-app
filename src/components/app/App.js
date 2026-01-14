@@ -1,8 +1,8 @@
 import './App.scss';
 
 import Header from '../appHeader/Header';
-import CharList from '../charList/charList';
-import CharInfo from '../charInfo/charInfo';
+import CharList from '../charList/CharList';
+import CharInfo from '../charInfo/CharInfo';
 
 function App() {
   return (
