@@ -1,60 +1,96 @@
-
 import './charInfo.scss';
-import thor from '../../resources/img/thor.jpg';
 
-const CharInfo = () => {
+import { Component } from 'react';
+import Spiner from '../spiner/Spiner';
+import ErrorMesaage from '../errorMessage/ErrorMesaage';
+import MarvelService from "../../services/MarvelServices";
+
+class CharInfo extends Component {
+    state = {
+        char: {
+            comics: [],
+        },
+        loading: true,
+        error: false
+    }
+
+    marvelService = new MarvelService();
+
+    componentDidMount() {
+        this.loadChar(2);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.selectedChar !== this.props.selectedChar) {
+            this.loadChar(this.props.selectedChar);
+        }
+    }
+
+    onCharLoaded = (char) => {
+        this.setState({char, loading: false, selectedChar: char.id})
+    }
+
+    onError = () => {
+        this.setState({loading: false, error: true})
+    }
+
+    loadChar = (id) => {
+        this.setState({loading: true, error: false});
+        this.marvelService
+            .getCharacter(id)
+            .then(this.onCharLoaded)
+            .catch(this.onError)
+    }
+
+    render() {
+        const {char, loading, error} = this.state;
+        const spinner = loading ? <Spiner/> : null;
+        const errorMessage = error ? <ErrorMesaage/> : null;
+
+        const charView = loading || error ? null : <View char={char}/>;
+
+        return (
+            <div className="char__info">
+                {errorMessage}
+                {spinner}
+                {charView}
+            </div>
+        )
+    }
+}
+
+const View = ({char}) => {
+    const {name, description, thumbnail, comics, wiki, homepage} = char;
     return (
-        <div className="char__info">
+        <div>
             <div className="char__basics">
-                <img src={thor} alt="abyss"/>
+                <img src={thumbnail} alt="abyss"/>
                 <div>
-                    <div className="char__info-name">thor</div>
+                    <div className="char__info-name">{name}</div>
                     <div className="char__btns">
-                        <a href="#" className="btn btn-red">
+                        <a href={homepage} className="btn btn-red" target="_blank" rel="noreferrer">
                             <div className="inner">HOMEPAGE</div>
                         </a>
-                        <a href="#" className="btn btn-gray">
+                        <a href={wiki} className="btn btn-gray" target="_blank" rel="noreferrer">
                             <div className="inner">WIKI</div>
                         </a>
                     </div>
                 </div>
             </div>
             <div className="char__descr">
-                In Norse mythology, Loki is a god or jötunn (or both). Loki is the son of Fárbauti and Laufey, and the brother of Helblindi and Býleistr. By the jötunn Angrboða, Loki is the father of Hel, the wolf Fenrir, and the world serpent Jörmungandr. By Sigyn, Loki is the father of Nari and/or Narfi and with the stallion Svaðilfari as the father, Loki gave birth—in the form of a mare—to the eight-legged horse Sleipnir. In addition, Loki is referred to as the father of Váli in the Prose Edda.
+                {description}
             </div>
-            <div className="char__comics">Comics:</div>
-            <ul className="char__comics-list">
-                <li className="char__comics-item">
-                    All-Winners Squad: Band of Heroes (2011) #3
-                </li>
-                <li className="char__comics-item">
-                    Alpha Flight (1983) #50
-                </li>
-                <li className="char__comics-item">
-                    Amazing Spider-Man (1999) #503
-                </li>
-                <li className="char__comics-item">
-                    Amazing Spider-Man (1999) #504
-                </li>
-                <li className="char__comics-item">
-                    AMAZING SPIDER-MAN VOL. 7: BOOK OF EZEKIEL TPB (Trade Paperback)
-                </li>
-                <li className="char__comics-item">
-                    Amazing-Spider-Man: Worldwide Vol. 8 (Trade Paperback)
-                </li>
-                <li className="char__comics-item">
-                    Asgardians Of The Galaxy Vol. 2: War Of The Realms (Trade Paperback)
-                </li>
-                <li className="char__comics-item">
-                    Vengeance (2011) #4
-                </li>
-                <li className="char__comics-item">
-                    Avengers (1963) #1
-                </li>
-                <li className="char__comics-item">
-                    Avengers (1996) #1
-                </li>
-            </ul>
+            {comics.length > 0 ? (
+                <>
+                    <div className="char__comics">Comics:</div>
+                    <ul className="char__comics-list">
+                        {comics.map((comic, i) => {
+                            if (i > 10) return;
+                            return (<li className="char__comics-item" key={comic}>{comic}</li>)
+                        })}
+                    </ul>
+                </>
+            ) : "This character has no comics yet."}
         </div>
     )
 }

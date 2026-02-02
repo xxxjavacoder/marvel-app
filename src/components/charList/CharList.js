@@ -39,18 +39,18 @@ class CharList extends Component {
     render() {
 
         const {chars, loading, error} = this.state;
-        const spiner = loading ? <Spiner/> : null;
+        const spinner = loading ? <Spiner/> : null;
         const errorMessage = error ? <ErrorMesaage/> : null;
 
         const charViews = chars.map(
-            char => <View char={char} key={char.name} />
+            char => <View char={char} key={char.id} onSelectChar={this.props.onSelectChar} />
         );
 
         return (
             <div className="char__list">
                 <div className="char__grid">
                     {errorMessage}
-                    {spiner}
+                    {spinner}
                     {charViews}
                 </div>
                 <div style={{textAlign: 'center'}}>
@@ -63,15 +63,15 @@ class CharList extends Component {
     }
 }
 
-const View = ({char}) => {
-    const {name, thumbnail} = char;
+const View = ({ char, onSelectChar }) => {
+    const { id, name, thumbnail } = char;
 
     return (
-        <div className="char__item">
-            <img src={thumbnail} alt="name"/>
+        <div className="char__item" onClick={() => onSelectChar(id)}>
+            <img src={thumbnail} alt={name} />
             <div className="char__name">{name}</div>
         </div>
-    )
-}
+    );
+};
 
 export default CharList;
