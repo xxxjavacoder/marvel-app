@@ -1,4 +1,5 @@
 import RandomChar from '../appRandomChar/RandomChar';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 import './Header.scss';
 
@@ -13,7 +14,9 @@ function Header() {
                     <span className="red-text">Characters</span> / Comics
                 </div>
             </div>
-            <RandomChar/>
+            <ErrorBoundary>
+                <RandomChar/>
+            </ErrorBoundary>
         </div>
     );
 }

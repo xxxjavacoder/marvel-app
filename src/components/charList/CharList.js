@@ -17,6 +17,8 @@ class CharList extends Component {
 
     componentDidMount() {
         this.loadChars();
+        // Example error for show how to work with Error Boundary and ComponentDidCatch etc.
+        // this.foo.bar = 0;
     }
 
     onCharsLoaded = (chars) => {

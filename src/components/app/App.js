@@ -4,6 +4,7 @@ import { Component } from 'react';
 import Header from '../appHeader/Header';
 import CharList from '../charList/CharList';
 import CharInfo from '../charInfo/CharInfo';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 class App extends Component {
     state = {
@@ -19,8 +20,12 @@ class App extends Component {
             <div className="App">
                 <Header/>
                 <div className="char__content">
-                  <CharList onSelectChar={this.onSelectChar} />
-                  <CharInfo selectedChar={this.state.selectedChar} />
+                    <ErrorBoundary>
+                        <CharList onSelectChar={this.onSelectChar} />
+                    </ErrorBoundary>
+                    <ErrorBoundary>
+                        <CharInfo selectedChar={this.state.selectedChar} />
+                    </ErrorBoundary>
                 </div>
             </div>
         );
