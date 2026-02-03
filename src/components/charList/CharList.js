@@ -10,37 +10,54 @@ class CharList extends Component {
     state = {
         loading: true,
         error: false,
-        chars: []
+        chars: [],
+        LoadingNew: false,
+        offset: 0,
+        endedList: false
     }
 
     marvelService = new MarvelService();
 
     componentDidMount() {
+        if (this._loaded) return;
+        this._loaded = true;
         this.loadChars();
         // Example error for show how to work with Error Boundary and ComponentDidCatch etc.
         // this.foo.bar = 0;
     }
 
+    loadChars = (offset) => {
+        this.onCharLoading();
+        this.setState({loading: true, error: false});
+        this.marvelService
+            .getListOfCharacters(offset)
+            .then(this.onCharsLoaded)
+            .catch(this.onError)
+    }
+
+    onCharLoading = () => {
+        this.setState({LoadingNew: true});
+    }
+
     onCharsLoaded = (chars) => {
-        this.setState({chars, loading: false})
+        if (chars.length < 9) {
+            this.setState({endedList: true});
+        }
+        this.setState(prevState => ({
+            chars: [...prevState.chars, ...chars],
+            offset: prevState.offset + 9,
+            loading: false,
+            LoadingNew: false
+        }))
     }
 
     onError = () => {
         this.setState({loading: false, error: true});
     }
 
-    loadChars = () => {
-        const limit = 9;
-        this.setState({loading: true, error: false});
-        this.marvelService
-            .getListOfCharacters(limit)
-            .then(this.onCharsLoaded)
-            .catch(this.onError)
-    }
-
     render() {
 
-        const {chars, loading, error} = this.state;
+        const {chars, loading, error,offset, LoadingNew, endedList} = this.state;
         const spinner = loading ? <Spiner/> : null;
         const errorMessage = error ? <ErrorMesaage/> : null;
 
@@ -56,7 +73,11 @@ class CharList extends Component {
                     {charViews}
                 </div>
                 <div style={{textAlign: 'center'}}>
-                    <button className="btn btn-red mt-4">
+                    <button
+                        className="btn btn-red mt-4"
+                        onClick={() => this.loadChars(offset)} disabled={LoadingNew}
+                        style={{display: endedList ? 'none' : 'inline-block'}}
+                    >
                         <div className="inner">load more</div>
                     </button>
                 </div>
