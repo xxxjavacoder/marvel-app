@@ -4,6 +4,7 @@ import { Component } from 'react';
 import Spiner from '../spiner/Spiner';
 import ErrorMesaage from '../errorMessage/ErrorMesaage';
 import MarvelService from "../../services/MarvelServices";
+import PropTypes from 'prop-types';
 
 class CharInfo extends Component {
     state = {
@@ -93,6 +94,10 @@ const View = ({char}) => {
             ) : "This character has no comics yet."}
         </div>
     )
+}
+
+CharInfo.propTypes = {
+    selectedChar: PropTypes.number.isRequired
 }
 
 export default CharInfo;
