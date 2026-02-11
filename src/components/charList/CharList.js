@@ -11,6 +11,7 @@ class CharList extends Component {
         loading: true,
         error: false,
         chars: [],
+        selectedChar: null,
         LoadingNew: false,
         offset: 0,
         endedList: false
@@ -55,6 +56,11 @@ class CharList extends Component {
         this.setState({loading: false, error: true});
     }
 
+    selectChar = (id) => {
+        this.props.onSelectChar(id);
+        this.setState({selectedChar: id});
+    }
+
     render() {
 
         const {chars, loading, error,offset, LoadingNew, endedList} = this.state;
@@ -62,7 +68,7 @@ class CharList extends Component {
         const errorMessage = error ? <ErrorMesaage/> : null;
 
         const charViews = chars.map(
-            char => <View char={char} key={char.id} onSelectChar={this.props.onSelectChar} />
+            char => <View char={char} key={char.id} selectChar={this.selectChar} selectedID={this.state.selectedChar}/>
         );
 
         return (
@@ -86,11 +92,13 @@ class CharList extends Component {
     }
 }
 
-const View = ({ char, onSelectChar }) => {
+const View = ({ char, selectChar, selectedID }) => {
     const { id, name, thumbnail } = char;
+    const selected = id === selectedID;
+    const className = selected ? 'char__item char__item_selected' : 'char__item';
 
     return (
-        <div className="char__item" onClick={() => onSelectChar(id)}>
+        <div className={className} onClick={() => selectChar(id)}>
             <img src={thumbnail} alt={name} />
             <div className="char__name">{name}</div>
         </div>
