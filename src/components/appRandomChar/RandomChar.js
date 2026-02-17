@@ -1,71 +1,66 @@
-import {Component} from 'react';
+import {useEffect, useState} from 'react';
 import MarvelService from '../../services/MarvelServices';
 import Spiner from '../spiner/Spiner';
 import ErrorMesaage from '../errorMessage/ErrorMesaage';
 
 import './randomChar.scss';
 
-class RandomChar extends Component {
+function RandomChar() {
 
-    state = {
-        char: {},
-        loading: true,
-        error: false
+    const [char, setChar] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+
+    const marvelService = new MarvelService();
+
+    useEffect(() => {
+        updateChar();
+        const timerID = setInterval(updateChar, 10000);
+        return () => clearInterval(timerID);
+    }, [])
+
+    const onCharLoaded = (newChar) => {
+        setChar(newChar);
+        setError(false);
+        setLoading(false);
     }
 
-    marvelService = new MarvelService();
-
-    componentDidMount() {
-        this.updateChar();
-        this.timerID = setInterval(this.updateChar, 10000);
+    const onError = () => {
+        setLoading(false);
+        setError(true);
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-    }
-
-    onCharLoaded = (char) => {
-        this.setState({char, loading: false})
-    }
-
-    onError = () => {
-        this.setState({loading: false, error: true})
-    }
-
-    updateChar = () => {
+    const updateChar = () => {
         const id = Math.floor(Math.random() * 21) + 1;
-        this.setState({loading: true, error: false});
-        this.marvelService
+        setLoading(true);
+        setError(false);
+        marvelService
             .getCharacter(id)
-            .then(this.onCharLoaded)
-            .catch(this.onError)
+            .then(onCharLoaded)
+            .catch(onError)
     }
 
-    render() {
-        const {char, loading, error} = this.state;
+    const errorMessage = error ? <ErrorMesaage/> : null;
+    const spiner = loading ? <Spiner/> : null;
+    const charView = (!errorMessage && !spiner) ? <View char={char}/> : null;
 
-        const errorMessage = error ? <ErrorMesaage/> : null;
-        const spiner = loading ? <Spiner/> : null;
-        const charView = (!errorMessage && !spiner) ? <View char={char}/> : null;
-
-        return (
-            <div className="random-char">
-                { errorMessage }
-                { spiner }
-                { charView }
-                <div className="random-char__random">
-                    <div className="fz-24 fw-bold">
-                        Random character for today!
-                        Do you want to get to know him better?
-                    </div>
-                    <div className="fz-24 fw-bold mt-4">
-                        Or choose another one
-                    </div>
-                    <button onClick={this.updateChar} className="btn btn-red mt-4">TRY IT</button>
+    return (
+        <div className="random-char">
+            { errorMessage }
+            { spiner }
+            { charView }
+            <div className="random-char__random">
+                <div className="fz-24 fw-bold">
+                    Random character for today!
+                    Do you want to get to know him better?
                 </div>
+                <div className="fz-24 fw-bold mt-4">
+                    Or choose another one
+                </div>
+                <button onClick={updateChar} className="btn btn-red mt-4">TRY IT</button>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 const View = ({char}) => {

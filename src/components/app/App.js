@@ -1,35 +1,31 @@
 import './App.scss';
 
-import { Component } from 'react';
+import { useState } from 'react';
 import Header from '../appHeader/Header';
 import CharList from '../charList/CharList';
 import CharInfo from '../charInfo/CharInfo';
 import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
-class App extends Component {
-    state = {
-        selectedChar: null
+function App() {
+    const [selectedChar, setSelectedChar] = useState(1)
+
+    const onSelectChar = (id) => {
+        setSelectedChar(id);
     }
 
-    onSelectChar = (id) => {
-        this.setState({selectedChar: id})
-    }
-
-    render() {
-        return (
-            <div className="App">
-                <Header/>
-                <div className="char__content">
-                    <ErrorBoundary>
-                        <CharList onSelectChar={this.onSelectChar} />
-                    </ErrorBoundary>
-                    <ErrorBoundary>
-                        <CharInfo selectedChar={this.state.selectedChar} />
-                    </ErrorBoundary>
-                </div>
+    return (
+        <div className="App">
+            <Header/>
+            <div className="char__content">
+                <ErrorBoundary>
+                    <CharList onSelectChar={onSelectChar} />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                    <CharInfo selectedChar={selectedChar} />
+                </ErrorBoundary>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default App;
