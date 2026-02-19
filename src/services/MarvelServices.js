@@ -1,34 +1,28 @@
-class MarvelServices {
-    _apiBaseUrl = 'https://marvel-server-zeta.vercel.app';
-    _apiKey = 'apikey=d4eecb0c66dedbfae4eab45d312fc1df';
-    _baseOffset = 0;
+import {useHttp} from "../hooks/http.hook";
 
-    getResource = async (url) => {
-        let res = await fetch(url);
+const useMarvelServices = () => {
+    const {request, loading, error, clearError} = useHttp();
 
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-        }
+    const _apiBaseUrl = 'https://marvel-server-zeta.vercel.app';
+    const _apiKey = 'apikey=d4eecb0c66dedbfae4eab45d312fc1df';
+    const _baseOffset = 0;
 
-        return await res.json();
+    const getAllCharacters = async () => {
+        const res = await request(`${_apiBaseUrl}/characters?${_apiKey}`);
+        return res.data.results.map(_transformCharacter);
     }
 
-    getAllCharacters = async () => {
-        const res = await this.getResource(`${this._apiBaseUrl}/characters?${this._apiKey}`);
-        return res.data.results.map(this._transformCharacter);
+    const getCharacter = async (id) => {
+        const res = await request(`${_apiBaseUrl}/characters/${id}?&${_apiKey}`);
+        return _transformCharacter(res?.data.results[0]);
     }
 
-    getCharacter = async (id) => {
-        const res = await this.getResource(`${this._apiBaseUrl}/characters/${id}?&${this._apiKey}`);
-        return this._transformCharacter(res.data.results[0]);
+    const getListOfCharacters = async (offset = _baseOffset) => {
+        const res = await request(`${_apiBaseUrl}/characters?limit=9&offset=${offset}&${_apiKey}`);
+        return res.data.results.map(_transformCharacter);
     }
 
-    getListOfCharacters = async (offset = this._baseOffset) => {
-        const res = await this.getResource(`${this._apiBaseUrl}/characters?limit=9&offset=${offset}&${this._apiKey}`);
-        return res.data.results.map(this._transformCharacter);
-    }
-
-    _transformCharacter = (char) => {
+    const _transformCharacter = (char) => {
         return {
             id: char.id,
             name: char.name,
@@ -39,6 +33,8 @@ class MarvelServices {
             comics: char.comics.items.map(comic => comic)
         };
     }
+
+    return {loading, error, getAllCharacters, getCharacter, getListOfCharacters, clearError}
 }
 
-export default MarvelServices;
+export default useMarvelServices;

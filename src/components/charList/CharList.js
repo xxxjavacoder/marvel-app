@@ -1,38 +1,29 @@
 import {useEffect, useState} from 'react';
-import MarvelService from '../../services/MarvelServices';
-import Spiner from '../spiner/Spiner';
-import ErrorMesaage from '../errorMessage/ErrorMesaage';
+import useMarvelService from '../../services/MarvelServices';
+import Spinner from '../spiner/Spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 
 import './charList.scss';
 
 function CharList(props = {onSelectChar: () => {}}) {
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
     const [chars, setChars] = useState([]);
     const [selectedChar, setSelectedChar] = useState(1);
     const [LoadingNew, setLoadingNew] = useState(false);
     const [offset, setOffset] = useState(0);
     const [endedList, setEndedList] = useState(false);
 
-    const marvelService = new MarvelService();
+    const {loading, error, getListOfCharacters, clearError} = useMarvelService();
 
     useEffect(() => {
-        loadChars();
+        loadChars(offset, true);
     }, []);
 
-    const loadChars = (offset) => {
-        onCharLoading();
-        setLoading(true);
-        setError(false);
-        marvelService
-            .getListOfCharacters(offset)
+    const loadChars = (offset, initial) => {
+        initial ? setLoadingNew(false) : setLoadingNew(true);
+        clearError();
+        getListOfCharacters(offset)
             .then(onCharsLoaded)
-            .catch(onError)
-    }
-
-    const onCharLoading = () => {
-       setLoadingNew(true);
     }
 
     const onCharsLoaded = (newChars) => {
@@ -41,13 +32,7 @@ function CharList(props = {onSelectChar: () => {}}) {
         }
         setChars( chars => [...chars, ...newChars]);
         setOffset(offset => offset + 9);
-        setLoading(false);
         setLoadingNew(false);
-    }
-
-    const onError = () => {
-        setLoading(false);
-        setError(true);
     }
 
     const selectChar = (id) => {
@@ -55,8 +40,8 @@ function CharList(props = {onSelectChar: () => {}}) {
         setSelectedChar(id);
     }
 
-    const spinner = loading ? <Spiner/> : null;
-    const errorMessage = error ? <ErrorMesaage/> : null;
+    const spinner = loading && !LoadingNew ? <Spinner/> : null;
+    const errorMessage = error ? <ErrorMessage/> : null;
 
     const charViews = chars.map(
         char => <View char={char} key={char.id} selectChar={selectChar} selectedID={selectedChar}/>

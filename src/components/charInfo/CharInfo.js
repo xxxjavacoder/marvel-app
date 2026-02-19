@@ -1,20 +1,18 @@
 import './charInfo.scss';
 
 import {useEffect, useState} from 'react';
-import Spiner from '../spiner/Spiner';
-import ErrorMesaage from '../errorMessage/ErrorMesaage';
-import MarvelService from "../../services/MarvelServices";
+import Spinner from '../spiner/Spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
+import useMarvelService from "../../services/MarvelServices";
 import PropTypes from 'prop-types';
 
 function CharInfo(props) {
     const [char, setChar] = useState({
         comics: [],
     });
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
     const selectedChar = props.selectedChar;
 
-    const marvelService = new MarvelService();
+    const {loading, error, getCharacter, clearError} = useMarvelService();
 
     useEffect(() => {
         loadChar(selectedChar);
@@ -22,26 +20,16 @@ function CharInfo(props) {
 
     const onCharLoaded = (char) => {
         setChar(char);
-        setLoading(false);
-        setError(false);
-    }
-
-    const onError = () => {
-        setLoading(false);
-        setError(true);
     }
 
     const loadChar = (id) => {
-        setLoading(true);
-        setError(false);
-        marvelService
-            .getCharacter(id)
+        clearError();
+        getCharacter(id)
             .then(onCharLoaded)
-            .catch(onError)
     }
 
-    const spinner = loading ? <Spiner/> : null;
-    const errorMessage = error ? <ErrorMesaage/> : null;
+    const spinner = loading ? <Spinner/> : null;
+    const errorMessage = error ? <ErrorMessage/> : null;
 
     const charView = loading || error ? null : <View char={char}/>;
 
