@@ -1,12 +1,10 @@
-import './App.scss';
-
 import { useState } from 'react';
-import Header from '../appHeader/Header';
-import CharList from '../charList/CharList';
-import CharInfo from '../charInfo/CharInfo';
-import ErrorBoundary from '../errorBoundary/ErrorBoundary';
+import CharList from '../components/charList/CharList';
+import CharInfo from '../components/charInfo/CharInfo';
+import ErrorBoundary from '../components/errorBoundary/ErrorBoundary';
+import RandomChar from "../components/appRandomChar/RandomChar";
 
-function App() {
+function Characters() {
     const [selectedChar, setSelectedChar] = useState(1)
 
     const onSelectChar = (id) => {
@@ -14,8 +12,10 @@ function App() {
     }
 
     return (
-        <div className="App">
-            <Header/>
+        <div>
+            <ErrorBoundary>
+                <RandomChar/>
+            </ErrorBoundary>
             <div className="char__content">
                 <ErrorBoundary>
                     <CharList onSelectChar={onSelectChar} />
@@ -28,4 +28,4 @@ function App() {
     );
 }
 
-export default App;
+export default Characters;
