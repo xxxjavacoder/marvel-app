@@ -13,15 +13,14 @@ function App() {
                         <span className="red-text">Marvel</span> information portal
                     </div>
                     <div>
-                        <NavLink activeClassName='active' to="/">Characters</NavLink>
+                        <NavLink className={({isActive}) => isActive ? "active" : ""} to="/">Characters</NavLink>
                         &nbsp;/&nbsp;
-                        <NavLink activeClassName='active' to="/comics">Comics</NavLink>
+                        <NavLink className={({isActive}) => isActive ? "active" : ""} to="/comics">Comics</NavLink>
                     </div>
                 </div>
+
                 <Routes>
                     <Route path="/" element={<Characters />}/>
-                </Routes>
-                <Routes>
                     <Route path="/comics" element={<Comics />}/>
                 </Routes>
             </Router>
