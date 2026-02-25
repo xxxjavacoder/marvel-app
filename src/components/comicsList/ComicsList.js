@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import useMarvelService from '../../services/MarvelServices';
+import {NavLink} from 'react-router-dom';
 
 import './ComicsList.scss';
 import Spinner from "../spiner/Spinner";
@@ -57,15 +58,17 @@ function ComicsList() {
     );
 }
 
-const View = ({comic}) => {
+const View = ({comic, setComicID}) => {
     return (
-        <div className="comics__item">
-            <img className="comics__item-img" src={comic.thumbnail} alt={comic.title}/>
-            <div className="comics__item-name">{comic.title}</div>
-            <div className="comics__item-descr">{comic.description}</div>
-            <div className="comics__item-pages">{comic.pageCount} pages</div>
-            <div className="comics__item-price">{comic.price}$</div>
-        </div>
+        <NavLink to={`/comics/${comic.id}`}>
+            <div className="comics__item">
+                <img className="comics__item-img" src={comic.thumbnail} alt={comic.title}/>
+                <div className="comics__item-name">{comic.title}</div>
+                <div className="comics__item-descr">{comic.description}</div>
+                <div className="comics__item-pages">{comic.pageCount} pages</div>
+                <div className="comics__item-price">{comic.price}$</div>
+            </div>
+        </NavLink>
     )
 }
 

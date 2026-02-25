@@ -1,13 +1,24 @@
 .comics {
+  
   &__list {
     margin-top: 45px;
   }
+
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, 225px);
     justify-content: space-between;
     row-gap: 55px;
   }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   &__item {
     transition: 0.3s transform;
 
@@ -22,15 +33,18 @@
       font-weight: bold;
       font-size: 14px;
       line-height: 18px;
+      color: black;
     }
 
     &-descr {
       font-size: 14px;
+      color: black;
     }
 
     &-pages {
       margin-top: 10px;
       font-weight: bold;
+      color: black;
     }
 
     &-price {
