@@ -38,7 +38,7 @@ const FormComponent = () => {
             }}
         >
             <Form className="form">
-                <h2>Send Donation Test commit</h2>
+                <h2>Send Donation</h2>
                 <label htmlFor="name">Name</label>
                 <Field
                     id="name"
