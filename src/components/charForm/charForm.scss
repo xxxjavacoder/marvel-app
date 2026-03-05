@@ -1,0 +1,41 @@
+@import "../../styles/variables";
+
+.char-form {
+  margin-top: 20px;
+  padding: 25px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 5;
+  background-color: #fff;
+
+  &__title {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 29px;
+  }
+
+  input {
+    background-color: #fff;
+    border: none;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    min-height: 30px;
+    margin-right: 10px;
+    outline-color: $red-text;
+    padding: 2px 5px;
+  }
+
+  .char-link {
+    display: block;
+    margin-top: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    color: $red-text;
+
+    &:hover {
+      text-decoration: underline;
+      color: $red-text;
+      opacity: .75;
+    }
+  }
+}

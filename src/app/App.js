@@ -8,7 +8,7 @@ import Form from '../components/form/Form';
 const Characters = lazy(() => import('../pages/Characters'));
 const Comics = lazy(() => import('../pages/Comics'));
 const NotFound = lazy(() => import('../pages/NotFound'));
-const SingleComic = lazy(() => import('../pages/SingleComic'));
+const Single = lazy(() => import('../pages/Single'));
 
 function App() {
     return (
@@ -30,7 +30,8 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Characters />}/>
                         <Route path="/comics" element={<Comics />}/>
-                        <Route path="/comics/:comicId" element={<SingleComic comicId={1} />}/>
+                        <Route path="/comics/:comicId" element={<Single comicId={1} />}/>
+                        <Route path="/characters/:characterId" element={<Single characterId={1}/>} />
                         <Route path="/form" element={<Form />}/>
                         <Route path="*" element={<NotFound />}></Route>
                     </Routes>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import CharList from '../components/charList/CharList';
 import CharInfo from '../components/charInfo/CharInfo';
+import CharForm from "../components/charForm/CharForm";
 import ErrorBoundary from '../components/errorBoundary/ErrorBoundary';
 import RandomChar from "../components/appRandomChar/RandomChar";
 import {Helmet} from "react-helmet";
@@ -26,9 +27,14 @@ function Characters() {
                 <ErrorBoundary>
                     <CharList onSelectChar={onSelectChar} />
                 </ErrorBoundary>
-                <ErrorBoundary>
-                    <CharInfo selectedChar={selectedChar} />
-                </ErrorBoundary>
+                <div>
+                    <ErrorBoundary>
+                        <CharInfo selectedChar={selectedChar} />
+                    </ErrorBoundary>
+                    <ErrorBoundary>
+                        <CharForm />
+                    </ErrorBoundary>
+                </div>
             </div>
         </div>
     );

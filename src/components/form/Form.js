@@ -20,16 +20,16 @@ const FormComponent = () => {
                     .min(3, 'Must be at least 3 characters long')
                     .max(20, 'Must be no longer than 20 characters')
                     .required('Required'),
-                    email: yup.string()
+                email: yup.string()
                     .email('Invalid email address')
                     .required('Required'),
-                    amount: yup.number()
+                amount: yup.number()
                     .moreThan(50, 'Must be more than 50')
                     .required('Required'),
-                    currency: yup.string()
+                currency: yup.string()
                     .required('Required'),
-                    text: yup.string(),
-                    terms: yup.boolean()
+                text: yup.string(),
+                terms: yup.boolean()
                     .oneOf([true], "Required")
                     .required('Required')
             })}
