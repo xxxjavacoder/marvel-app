@@ -1,7 +1,7 @@
 import {useHttp} from "../hooks/http.hook";
 
 const useMarvelServices = () => {
-    const {request, loading, error, clearError} = useHttp();
+    const {request, loading, error, clearError, setProcess, process} = useHttp();
 
     const _apiBaseUrl = 'https://marvel-server-zeta.vercel.app';
     const _apiKey = 'apikey=d4eecb0c66dedbfae4eab45d312fc1df';
@@ -60,7 +60,19 @@ const useMarvelServices = () => {
         };
     }
 
-    return {loading, error, getAllCharacters, getCharacter, getCharacterByName, getListOfCharacters, clearError, getListOfComics, getComic}
+    return {
+        loading,
+        error,
+        setProcess,
+        process,
+        getAllCharacters,
+        getCharacter,
+        getCharacterByName,
+        getListOfCharacters,
+        clearError,
+        getListOfComics,
+        getComic
+    }
 }
 
 export default useMarvelServices;

@@ -12,7 +12,7 @@ function CharInfo(props) {
     });
     const selectedChar = props.selectedChar;
 
-    const {loading, error, getCharacter, clearError} = useMarvelService();
+    const {getCharacter, clearError, setProcess, process} = useMarvelService();
 
     useEffect(() => {
         loadChar(selectedChar);
@@ -26,18 +26,27 @@ function CharInfo(props) {
         clearError();
         getCharacter(id)
             .then(onCharLoaded)
+            .then(() => setProcess('confirmed'))
     }
 
-    const spinner = loading ? <Spinner/> : null;
-    const errorMessage = error ? <ErrorMessage/> : null;
-
-    const charView = loading || error ? null : <View char={char}/>;
+    const setContent = (process, char) => {
+        switch (process) {
+            case 'waiting':
+                return <Spinner/>
+            case 'loading':
+                return <Spinner/>
+            case 'error':
+                return <ErrorMessage/>
+            case 'confirmed':
+                return <View char={char}/>
+            default:
+                return <ErrorMessage/>
+        }
+    }
 
     return (
         <div className="char__info">
-            {errorMessage}
-            {spinner}
-            {charView}
+            { setContent(process, char) }
         </div>
     )
 }
