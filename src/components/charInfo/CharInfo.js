@@ -1,8 +1,7 @@
 import './charInfo.scss';
 
 import {useEffect, useState} from 'react';
-import Spinner from '../spiner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
+import setContent from "../../utils/setContent";
 import useMarvelService from "../../services/MarvelServices";
 import PropTypes from 'prop-types';
 
@@ -29,30 +28,15 @@ function CharInfo(props) {
             .then(() => setProcess('confirmed'))
     }
 
-    const setContent = (process, char) => {
-        switch (process) {
-            case 'waiting':
-                return <Spinner/>
-            case 'loading':
-                return <Spinner/>
-            case 'error':
-                return <ErrorMessage/>
-            case 'confirmed':
-                return <View char={char}/>
-            default:
-                return <ErrorMessage/>
-        }
-    }
-
     return (
         <div className="char__info">
-            { setContent(process, char) }
+            { setContent(process, View, char) }
         </div>
     )
 }
 
-const View = ({char}) => {
-    const {name, description, thumbnail, comics, wiki, homepage} = char;
+const View = ({data}) => {
+    const {name, description, thumbnail, comics, wiki, homepage} = data;
     return (
         <div>
             <div className="char__basics">

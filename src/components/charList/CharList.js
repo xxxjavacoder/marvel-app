@@ -13,7 +13,7 @@ function CharList(props = {onSelectChar: () => {}}) {
     const [offset, setOffset] = useState(0);
     const [endedList, setEndedList] = useState(false);
 
-    const {loading, error, getListOfCharacters, clearError} = useMarvelService();
+    const {getListOfCharacters, clearError, process, setProcess} = useMarvelService();
 
     useEffect(() => {
         loadChars(offset, true);
@@ -33,6 +33,7 @@ function CharList(props = {onSelectChar: () => {}}) {
         setChars( chars => [...chars, ...newChars]);
         setOffset(offset => offset + 9);
         setLoadingNew(false);
+        setProcess('confirmed');
     }
 
     const selectChar = (id) => {
@@ -40,19 +41,29 @@ function CharList(props = {onSelectChar: () => {}}) {
         setSelectedChar(id);
     }
 
-    const spinner = loading && !LoadingNew ? <Spinner/> : null;
-    const errorMessage = error ? <ErrorMessage/> : null;
-
     const charViews = chars.map(
         char => <View char={char} key={char.id} selectChar={selectChar} selectedID={selectedChar}/>
     );
 
+    const setContent = (process) => {
+        switch (process) {
+            case 'waiting':
+                return <Spinner/>
+            case 'loading':
+                return LoadingNew ? charViews : <Spinner/>
+            case 'error':
+                return <ErrorMessage/>
+            case 'confirmed':
+                return charViews
+            default:
+                return <ErrorMessage/>
+        }
+    }
+
     return (
         <div className="char__list">
             <div className="char__grid">
-                {errorMessage}
-                {spinner}
-                {charViews}
+                {setContent(process)}
             </div>
             <div style={{textAlign: 'center'}}>
                 <button

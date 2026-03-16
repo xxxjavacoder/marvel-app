@@ -3,15 +3,14 @@ import { useState, useEffect } from 'react';
 import Helmet from 'react-helmet';
 
 import useMarvelService from '../services/MarvelServices';
-import Spinner from '../components/spiner/Spinner';
-import ErrorMessage from '../components/errorMessage/ErrorMessage';
+import setContent from "../utils/setContent";
 import './singlePage.scss';
 
 const Single = () => {
     const {comicId} = useParams();
     const {characterId} = useParams();
     const [state, setState] = useState(null);
-    const {loading, error, getComic, clearError, getCharacter} = useMarvelService();
+    const {getComic, clearError, getCharacter, process, setProcess} = useMarvelService();
 
     useEffect(() => {
         updateItem()
@@ -32,29 +31,25 @@ const Single = () => {
 
     const onComicLoaded = (comic) => {
         setState(comic);
+        setProcess('confirmed');
     }
 
     const onCharLoaded = (char) => {
         setState(char);
+        setProcess('confirmed');
     }
 
-    const errorMessage = error ? <ErrorMessage/> : null;
-    const spinner = loading ? <Spinner/> : null;
-    const comicContent = !(loading || error || !state) && comicId ? <ComicView item={state}/> : null;
-    const charContent = !(loading || error || !state) && characterId ? <CharView item={state}/> : null;
+    const content = setContent(process, comicId ? CharView : ComicView, state);
 
     return (
         <>
-            {errorMessage}
-            {spinner}
-            {comicContent}
-            {charContent}
+            {content}
         </>
     )
 }
 
-const ComicView = ({item}) => {
-    const {title, description, pageCount, thumbnail, language, price} = item;
+const ComicView = ({data}) => {
+    const {title, description, pageCount, thumbnail, language, price} = data;
 
     return (
         <>
@@ -78,8 +73,8 @@ const ComicView = ({item}) => {
     )
 }
 
-const CharView = ({item}) => {
-    const {name, description, thumbnail, homepage, wiki} = item;
+const CharView = ({data}) => {
+    const {name, description, thumbnail, homepage, wiki} = data;
 
     return (
         <>

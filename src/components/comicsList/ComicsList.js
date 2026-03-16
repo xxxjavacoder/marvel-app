@@ -11,7 +11,7 @@ function ComicsList() {
     const [offset, setOffset] = useState(0);
     const [endedList, setEndedList] = useState(false);
 
-    const {loading, error, getListOfComics, clearError} = useMarvelService();
+    const {getListOfComics, clearError, process, setProcess} = useMarvelService();
 
     useEffect(() => {
         clearError();
@@ -30,19 +30,31 @@ function ComicsList() {
         }
         setComics( comics => [...comics, ...newComics]);
         setOffset(offset => offset + 8);
+        setProcess('confirmed');
     }
 
     const comicsView = comics.map(comic => <View comic={comic} key={comic.id}/>);
-    const spinner = loading ? <Spinner /> : null;
-    const errorMessage = error ? <ErrorMessage /> : null;
+
+    const setContent = (process) => {
+        switch (process) {
+            case 'waiting':
+                return <Spinner/>
+            case 'loading':
+                return <Spinner/>
+            case 'error':
+                return <ErrorMessage/>
+            case 'confirmed':
+                return comicsView
+            default:
+                return <ErrorMessage/>
+        }
+    }
 
     return (
         <div className="comics">
             <div className="comics__list">
                 <div className="comics__grid">
-                    {errorMessage}
-                    {spinner}
-                    {comicsView}
+                    {setContent(process)}
                 </div>
                 <div style={{textAlign: 'center'}}>
                     <button
